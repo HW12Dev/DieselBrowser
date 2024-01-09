@@ -1,0 +1,45 @@
+﻿<Window x:Class="DieselBrowser.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DieselBrowser"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="1100">
+    <Window.Style>
+        <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
+    </Window.Style>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="Open Folder" Click="OpenFolder_Click"/>
+                <MenuItem Header="Open File" Click="OpenFile_Click"/>
+                <Separator/>
+                <MenuItem Header="New ObjectDatabase" Click="New_Click"/>
+                <MenuItem Header="Import" Click="Import_Click"/>
+                <MenuItem Header="Save As" Click="SaveAs_Click"/>
+            </MenuItem>
+        </Menu>
+        <ListView x:Name="fileListView" HorizontalAlignment="Left">
+            <ListView.Resources>
+                <ContextMenu x:Key="FileContextMenu">
+                    <MenuItem Header="Save" Click="SaveFiles"/>
+                </ContextMenu>
+            </ListView.Resources>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}" BasedOn="{StaticResource {x:Type ListViewItem}}">
+                    <Setter Property="ContextMenu" Value="{StaticResource FileContextMenu}"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding RefId}" Header="RefId" Width="200"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding ItemType}" Header="Type" Width="200"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Size}" Header="Size" Width="100"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding ShortSourceFile}" Header="Database" Width="200"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding PossibleName}" Header="Name" Width="400"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </DockPanel>
+</Window>
