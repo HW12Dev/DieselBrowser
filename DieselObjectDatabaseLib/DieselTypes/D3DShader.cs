@@ -10,7 +10,7 @@ namespace DieselObjectDatabaseLib.DieselTypes
     {
         // key is idstring, value is list of refids
         public Dictionary<ulong, List<uint>> Layers = new Dictionary<ulong, List<uint>>();
-        public static D3DShader Read(BinaryReader br)
+        public static D3DShader Read(BinaryReader br, bool Modern)
         {
             var shader = new D3DShader();
 
@@ -18,7 +18,15 @@ namespace DieselObjectDatabaseLib.DieselTypes
 
             for (int i = 0; i < num_layers; i++)
             {
-                var name = br.ReadUInt64(); // idstring
+                var name = 0ul;
+                if (Modern == true)
+                {
+                    name = br.ReadUInt64(); // idstring
+                } else if(Modern == false)
+                {
+                    name = new IdString(Utils.ReadNullTerminatedString(br)).Hash;
+                }
+
                 shader.Layers[name] = new List<uint>();
 
                 var np = br.ReadInt32();

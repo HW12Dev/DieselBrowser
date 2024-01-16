@@ -54,7 +54,7 @@ namespace DieselBrowser
 			}
 		}
 
-		private List<DisplayType> PopulateNamesForEntries(List<DisplayType> displayList)
+		private List<DisplayType> PopulateNamesForEntries(List<DisplayType> displayList, bool Modern)
 		{
 			List<DisplayType> newlist = displayList;
 
@@ -62,7 +62,7 @@ namespace DieselBrowser
 				if(entry.ItemType == "D3DShaderLibrary")
 				{
 					BinaryReader reader = new BinaryReader(new MemoryStream(entry.Data.ToArray()));
-					var shaderLibrary = D3DShaderLibrary.Read(reader);
+					var shaderLibrary = D3DShaderLibrary.Read(reader, Modern);
 
 					foreach(var pair in shaderLibrary.idstring_refid)
 					{
@@ -72,7 +72,7 @@ namespace DieselBrowser
 				if(entry.ItemType == "D3DShader")
 				{
 					BinaryReader reader = new BinaryReader(new MemoryStream(entry.Data.ToArray()));
-					var shader = D3DShader.Read(reader);
+					var shader = D3DShader.Read(reader, Modern);
 
 					foreach(var layer in shader.Layers) {
 						var hash_name = new IdString(layer.Key).Source;
@@ -171,8 +171,9 @@ namespace DieselBrowser
 				}
 				objDb.Close();
 			}
+			var Modern = MessageBox.Show("Are these ObjectDatabases for a game pre-PAYDAY: The Heist?", "DieselBrowser", MessageBoxButton.YesNo) == MessageBoxResult.No;
 
-			displayList = PopulateNamesForEntries(displayList);
+			displayList = PopulateNamesForEntries(displayList, Modern);
 
 			fileListView.ItemsSource = displayList;
 		}
@@ -200,7 +201,9 @@ namespace DieselBrowser
 			}
 			objDb.Close();
 
-			displayList = PopulateNamesForEntries(displayList);
+			var Modern = MessageBox.Show("Is this ObjectDatabase for a game pre-PAYDAY: The Heist?", "DieselBrowser", MessageBoxButton.YesNo) == MessageBoxResult.No;
+
+			displayList = PopulateNamesForEntries(displayList, Modern);
 
 			fileListView.ItemsSource = displayList;
 		}

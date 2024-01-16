@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DieselBrowser", "DieselBrow
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DieselObjectDatabaseLib", "DieselObjectDatabaseLib\DieselObjectDatabaseLib.csproj", "{6876AF2F-E96B-4DB5-BAEA-362964A2D200}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaderPassSplitter", "ShaderPassSplitter\ShaderPassSplitter.csproj", "{960902EA-1BC1-42AB-A42C-3739ABE0C025}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShaderPassSplitter", "ShaderPassSplitter\ShaderPassSplitter.csproj", "{960902EA-1BC1-42AB-A42C-3739ABE0C025}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
