@@ -22,7 +22,11 @@ namespace ShaderPassSplitter
 			{
 				var to_split = args[1];
 
-				var modern = args[2] != null && (args[2] == "modern" || args[2] == "true");
+				var modern = false;
+				if (args.Length > 2)
+				{
+					modern = args[2] != null && (args[2] == "modern" || args[2] == "true");
+				}
 
 				var pass = D3DShaderPass.Read(new BinaryReader(File.OpenRead(to_split)), modern, false);
 
@@ -36,7 +40,12 @@ namespace ShaderPassSplitter
 			{
 				var input = args[1];
 				var output = args[2];
-				var modern = args[3] != null && (args[3] == "modern" || args[3] == "true");
+
+				var modern = false;
+				if (args.Length > 3)
+				{
+					modern = args[3] != null && (args[3] == "modern" || args[3] == "true");
+				}
 
 				var pass = D3DShaderPass.Read(new BinaryReader(File.OpenRead(input + ".header")), modern, true);
 				pass.compiled_pixel_shader = File.ReadAllBytes(input + ".pixel.shader").ToList();
