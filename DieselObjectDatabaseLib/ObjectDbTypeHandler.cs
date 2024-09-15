@@ -68,7 +68,7 @@ namespace DieselObjectDatabaseLib
 
 			foreach(var pair in TypeIdToType)
 			{
-				if (pair.Value.ToLower().Contains(readableName))
+				if (pair.Value.ToLower().Equals(readableName))
 				{
 					return pair.Key;
 				}
