@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using Ookii.Dialogs.Wpf;
 
 namespace DieselBrowser
 {
@@ -32,16 +33,16 @@ namespace DieselBrowser
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		Ookii.Dialogs.Wpf.VistaFolderBrowserDialog OpenFolderDialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
-		Ookii.Dialogs.Wpf.VistaOpenFileDialog OpenFileDialog = new Ookii.Dialogs.Wpf.VistaOpenFileDialog();
+		VistaFolderBrowserDialog OpenFolderDialog = new VistaFolderBrowserDialog();
+		VistaOpenFileDialog OpenFileDialog = new VistaOpenFileDialog();
 
-		Ookii.Dialogs.Wpf.VistaFolderBrowserDialog ExportFolderDialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
-		Ookii.Dialogs.Wpf.VistaSaveFileDialog ExportFileDialog = new Ookii.Dialogs.Wpf.VistaSaveFileDialog();
+		VistaFolderBrowserDialog ExportFolderDialog = new VistaFolderBrowserDialog();
+		VistaSaveFileDialog ExportFileDialog = new VistaSaveFileDialog();
 
-		Ookii.Dialogs.Wpf.VistaFolderBrowserDialog ImportFolderDialog = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
-		Ookii.Dialogs.Wpf.VistaOpenFileDialog ImportFileDialog = new Ookii.Dialogs.Wpf.VistaOpenFileDialog();
+		VistaFolderBrowserDialog ImportFolderDialog = new VistaFolderBrowserDialog();
+		VistaOpenFileDialog ImportFileDialog = new VistaOpenFileDialog();
 
-		Ookii.Dialogs.Wpf.VistaSaveFileDialog SaveDatabaseFileDialog = new Ookii.Dialogs.Wpf.VistaSaveFileDialog();
+		VistaSaveFileDialog SaveDatabaseFileDialog = new VistaSaveFileDialog();
 
 		List<string> OpenDatabases = new List<string>();
 		public MainWindow()
@@ -245,9 +246,11 @@ namespace DieselBrowser
 				return;
 			}
 
+			ImportFileDialog.Multiselect = true;
+
 			if (!(bool)ImportFileDialog.ShowDialog(this))
 				return;
-			
+
 			foreach (var to_import2 in ImportFileDialog.FileNames)
 			{
 				var to_import = to_import2.Replace("\\", "/");
