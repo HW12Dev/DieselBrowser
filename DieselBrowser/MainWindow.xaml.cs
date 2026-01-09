@@ -53,34 +53,45 @@ namespace DieselBrowser
 			{
 				IdString.LoadHashlist(File.ReadAllLines("./hashlist"));
 			}
+			if (File.Exists("./hashlist.txt")) {
+				IdString.LoadHashlist(File.ReadAllLines("./hashlist.txt"));
+			}
 		}
 
+		private Dictionary<uint, string> shaderPassNames = new Dictionary<uint, string>();
 		private List<DisplayType> PopulateNamesForEntries(List<DisplayType> displayList, bool Modern)
 		{
+			shaderPassNames.Clear();
+
 			List<DisplayType> newlist = displayList;
 
-			foreach(var entry in displayList) {
-				if(entry.ItemType == "D3DShaderLibrary")
-				{
-					BinaryReader reader = new BinaryReader(new MemoryStream(entry.Data.ToArray()));
-					var shaderLibrary = D3DShaderLibrary.Read(reader, Modern);
+			foreach(var entry in displayList.FindAll(e => e.ItemType == "D3DShaderLibrary")) {
+				BinaryReader reader = new BinaryReader(new MemoryStream(entry.Data.ToArray()));
+				var shaderLibrary = D3DShaderLibrary.Read(reader, Modern);
 
-					foreach(var pair in shaderLibrary.idstring_refid)
-					{
-						newlist.Find(e => e.RefId == pair.Key && e.ShortSourceFile == entry.ShortSourceFile).PossibleName = new IdString(pair.Value).Source;
-					}
+				foreach (var pair in shaderLibrary.idstring_refid) {
+					shaderPassNames.Add(pair.Key, new IdString(pair.Value).Source);
+					newlist.Find(e => e.RefId == pair.Key && e.ShortSourceFile == entry.ShortSourceFile).PossibleName = "Shader pass metadata for " + new IdString(pair.Value).Source;
 				}
+			}
+
+			foreach(var entry in displayList) {
 				if(entry.ItemType == "D3DShader")
 				{
 					BinaryReader reader = new BinaryReader(new MemoryStream(entry.Data.ToArray()));
 					var shader = D3DShader.Read(reader, Modern);
 
 					foreach(var layer in shader.Layers) {
-						var hash_name = new IdString(layer.Key).Source;
+						//var hash_name = new IdString(layer.Key).Source;
 
 						foreach(var refid in layer.Value)
 						{
-							newlist.Find(e => e.RefId == refid && e.ShortSourceFile == entry.ShortSourceFile).PossibleName = hash_name;
+							//newlist.Find(e => e.RefId == refid && e.ShortSourceFile == entry.ShortSourceFile).PossibleName = hash_name;
+							if (shaderPassNames.ContainsKey(entry.RefId)) {
+								newlist.Find(e => e.RefId == refid && e.ShortSourceFile == entry.ShortSourceFile).PossibleName = shaderPassNames[entry.RefId];
+							} else {
+								newlist.Find(e => e.RefId == refid && e.ShortSourceFile == entry.ShortSourceFile).PossibleName = "No name in shader library for " + entry.RefId.ToString();
+							}
 						}
 					}
 				}
