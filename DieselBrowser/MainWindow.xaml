@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DieselBrowser"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1100">
+        Title="Diesel Browser" Height="450" Width="1100">
     <Window.Style>
         <Style TargetType="Window" BasedOn="{StaticResource {x:Type Window}}"/>
     </Window.Style>
@@ -20,7 +20,7 @@
                 <MenuItem Header="Save As" Click="SaveAs_Click"/>
             </MenuItem>
         </Menu>
-        <ListView x:Name="fileListView" HorizontalAlignment="Left">
+        <ListView x:Name="fileListView" HorizontalAlignment="Stretch">
             <ListView.Resources>
                 <ContextMenu x:Key="FileContextMenu">
                     <MenuItem Header="Save" Click="SaveFiles"/>
