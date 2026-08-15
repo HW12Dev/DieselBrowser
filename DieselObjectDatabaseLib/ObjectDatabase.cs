@@ -77,6 +77,13 @@ namespace DieselObjectDatabaseLib
 
 			objDb.ObjectCount = br.ReadInt32();
 
+			if(objDb.ObjectCount == 0x42444F44) // "DODB" when written
+			{
+				br.ReadUInt32(); // version
+				objDb.Size = br.ReadUInt32();
+				objDb.ObjectCount = br.ReadInt32();
+			}
+
 			// Only in modern diesel
 			if(objDb.ObjectCount == -1)
 			{
